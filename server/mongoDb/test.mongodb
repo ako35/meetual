@@ -1,0 +1,9 @@
+use("meetual-projectDB");
+
+db.createCollection("superusers")
+
+db.getCollection('superusers').insertOne({
+username: "admin",
+password: "admin",
+role: "admin"
+});
