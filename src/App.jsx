@@ -1,49 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import ClientRegister from './pages/register/client-register';
+// import ClientLogin from './pages/login/client-login';
+import ConsultantRegister from './pages/register/consultant-register';
+// import ConsultantLogin from './pages/login/consultant-login';
+// import SuperUserLogin from './pages/login/superUser-login';
 
-  const handleClick = async () => {
-    try {
-      const response = await fetch('http://localhost:3000/super-user');
-      const data = await response.text();
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+const App = () => {
+  
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <button onClick={handleClick}>
-         super-user
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      
-    </>
-  )
-}
+    <Router>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/register-client">Register Client</Link>
+          </li>
+          <li>
+            <Link to="/login-client">Login Client</Link>
+          </li>
+          <li>
+            <Link to="/register-consultant">Register Consultant</Link>
+          </li>
+          <li>
+            <Link to="/login-consultant">Login Consultant</Link>
+          </li>
+          <li>
+            <Link to="/login-superUser">Login SuperUser</Link>
+          </li>
+        </ul>
+      </nav>
+      <Routes>
+        <Route path="/register-client" element={<ClientRegister />} />
+        {/* <Route path="/login-client" element={<ClientLogin />} /> */}
+        <Route path="/register-consultant" element={<ConsultantRegister />} />
+        {/* <Route path="/login-consultant" element={<ConsultantLogin />} />
+        <Route path="/login-superUser" element={<SuperUserLogin />} /> */}
+      </Routes>
+    </Router>
+  );
+};
 
-export default App
+export default App;
