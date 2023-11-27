@@ -39,12 +39,69 @@ app.post("/register-client", async (req, res) => {
   }
 })
 
+app.put("/register-client/:id", async (req, res) => {
+  try {
+    const registerClientId = req.params.id;
+    const response = await clientModel.findByIdAndUpdate(registerClientId, {approved: req.body.approved}, {new: true});
+    console.log(response);
+    res.json(response);
+  } catch (error) {
+    console.error(error);
+  }
+})
+
+app.get("/register-client", async (req, res) => {
+  try {
+    const response = await clientModel.find();
+    console.log(response);
+    res.json(response);
+  } catch (error) {
+    console.error(error);
+  }
+})
+
 app.post("/register-consultant", async (req, res) => {
   try {
     console.log(req.body);
     const response = await consultantModel.create(req.body);
     console.log(response);
     res.json(response);
+  } catch (error) {
+    console.error(error);
+  }
+})
+
+app.put("/register-consultant/:id", async (req, res) => {
+  try {
+    const registerConsultantId = req.params.id;
+    const response = await consultantModel.findByIdAndUpdate(registerConsultantId, {approved: req.body.approved}, {new: true});
+    console.log(response);
+    res.json(response);
+  } catch (error) {
+    console.error(error);
+  }
+})
+
+app.get("/register-consultant", async (req, res) => {
+  try {
+    const response = await consultantModel.find();
+    console.log(response);
+    res.json(response);
+  } catch (error) {
+    console.error(error);
+  }
+})
+
+app.post("/login-superUser", async (req, res) => {
+  try {
+    console.log(req.body);
+    const response = await superUserModel.findOne(req.body);
+    console.log(response);
+    if (response) {
+      res.status(200).send("SuperUser login successful");
+    } else {
+      res.status(404).send({ message: 'User not found' });
+    }
   } catch (error) {
     console.error(error);
   }

@@ -4,7 +4,7 @@ import ClientRegister from './pages/register/client-register';
 // import ClientLogin from './pages/login/client-login';
 import ConsultantRegister from './pages/register/consultant-register';
 // import ConsultantLogin from './pages/login/consultant-login';
-// import SuperUserLogin from './pages/login/superUser-login';
+import SuperUserLogin from './pages/login/superUser-login';
 
 const App = () => {
   
@@ -34,8 +34,8 @@ const App = () => {
         <Route path="/register-client" element={<ClientRegister />} />
         {/* <Route path="/login-client" element={<ClientLogin />} /> */}
         <Route path="/register-consultant" element={<ConsultantRegister />} />
-        {/* <Route path="/login-consultant" element={<ConsultantLogin />} />
-        <Route path="/login-superUser" element={<SuperUserLogin />} /> */}
+        {/* <Route path="/login-consultant" element={<ConsultantLogin />} /> */}
+        <Route path="/login-superUser" element={<SuperUserLogin />} />
       </Routes>
     </Router>
   );
