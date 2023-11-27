@@ -107,6 +107,38 @@ app.post("/login-superUser", async (req, res) => {
   }
 })
 
+app.post("/login-client", async (req, res) => {
+  try {
+    console.log(req.body);
+    const { username, password } = req.body;
+    const response = await clientModel.findOne({ username, password, role: "client", approved: true });
+    console.log(response);
+    if (response) {
+      res.status(200).send("Client login successful");
+    } else {
+      res.status(404).send({ message: 'User not found' });
+    }
+  } catch (error) {
+    console.error(error);
+  }
+})
+
+app.post("/login-consultant", async (req, res) => {
+  try {
+    console.log(req.body);
+    const { username, password } = req.body;
+    const response = await consultantModel.findOne({ username, password, role: "consultant", approved: true });
+    console.log(response);
+    if (response) {
+      res.status(200).send("Consultant login successful");
+    } else {
+      res.status(404).send({ message: 'User not found' });
+    }
+  } catch (error) {
+    console.error(error);
+  }
+})
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
