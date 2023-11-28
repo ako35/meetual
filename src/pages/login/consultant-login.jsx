@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import ScheduleForm from '../schedule/schedule-form';
 
 const ConsultantLogin = () => {
     const [credentials, setCredentials] = useState({
@@ -7,7 +8,7 @@ const ConsultantLogin = () => {
         password: ''
     });
 
-    const [login, setLogin] = useState(false);
+    const [loginData, setLoginData] = useState(null);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -18,11 +19,10 @@ const ConsultantLogin = () => {
     }
 
     const handleLogin = async () => {
-        setLogin(false);
         try {
             const response = await axios.post('http://localhost:3000/login-consultant', credentials);
             console.log(response.data);
-            setLogin(true);
+            setLoginData(response.data);
         } catch (error) {
             console.error('Error logging in consultant:', error);
         }
@@ -40,10 +40,14 @@ const ConsultantLogin = () => {
             <button onClick={handleLogin}>Login</button>
 
             {
-                login && (
-                    <div>
-                        <h2>Login Successful for Consultant</h2>
-                    </div>
+                loginData && (
+                    <>
+                        <div>
+                            <h2>Login Successful for Consultant</h2>
+                            <p>Welcome, {loginData.username}</p>
+                        </div>
+                        <ScheduleForm consultantId={loginData._id} />
+                    </>
                 )
             }
 

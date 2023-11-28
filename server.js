@@ -42,7 +42,7 @@ app.post("/register-client", async (req, res) => {
 app.put("/register-client/:id", async (req, res) => {
   try {
     const registerClientId = req.params.id;
-    const response = await clientModel.findByIdAndUpdate(registerClientId, {approved: req.body.approved}, {new: true});
+    const response = await clientModel.findByIdAndUpdate(registerClientId, { approved: req.body.approved }, { new: true });
     console.log(response);
     res.json(response);
   } catch (error) {
@@ -74,7 +74,7 @@ app.post("/register-consultant", async (req, res) => {
 app.put("/register-consultant/:id", async (req, res) => {
   try {
     const registerConsultantId = req.params.id;
-    const response = await consultantModel.findByIdAndUpdate(registerConsultantId, {approved: req.body.approved}, {new: true});
+    const response = await consultantModel.findByIdAndUpdate(registerConsultantId, { approved: req.body.approved }, { new: true });
     console.log(response);
     res.json(response);
   } catch (error) {
@@ -130,7 +130,7 @@ app.post("/login-consultant", async (req, res) => {
     const response = await consultantModel.findOne({ username, password, role: "consultant", approved: true });
     console.log(response);
     if (response) {
-      res.status(200).send("Consultant login successful");
+      res.json(response);
     } else {
       res.status(404).send({ message: 'User not found' });
     }
@@ -138,6 +138,28 @@ app.post("/login-consultant", async (req, res) => {
     console.error(error);
   }
 })
+
+app.post("/add-schedule/:consultantId", async (req, res) => {
+  try {
+    const { clientName, description, date } = req.body;
+    const response = await consultantModel.findById(req.params.consultantId);
+    console.log(response.data);
+    if (!response) {
+      res.status(404).send({ error: 'Consultant not found' });
+    }
+    const newSchedule = {
+      clientName,
+      description,
+      date
+    }
+    response.schedule.push(newSchedule);
+    await response.save();
+    res.status(200).send({ message: 'Schedule added successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Internal server error' });
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
